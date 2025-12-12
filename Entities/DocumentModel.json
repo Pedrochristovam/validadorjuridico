@@ -1,0 +1,41 @@
+{
+  "name": "DocumentModel",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome do modelo"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "URL do arquivo modelo"
+    },
+    "required_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Campos obrigatórios do modelo"
+    },
+    "custom_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "Campos extras configuráveis"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
+
+

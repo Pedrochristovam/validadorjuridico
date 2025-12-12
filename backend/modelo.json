@@ -1,0 +1,27 @@
+{
+  "modelo": "Qualificação Técnica – Escritórios Associados",
+  "requisitos": {
+    "experiencia_geral": "Experiência específica em direito tributário e previdenciário (custeio e/ou benefício).",
+    "lote_1": {
+      "descricao": "Tributário e Previdenciário",
+      "i": "Atuação direta nos últimos 5 anos em pelo menos 5 defesas administrativas (RF, estaduais, municipais ou previdenciários) com valores >= 2.500.000 e com condução bem-sucedida.",
+      "ii": "Atuação direta nos últimos 5 anos em pelo menos 5 processos judiciais com valores >= 2.500.000 e com condução bem-sucedida.",
+      "iii": "Apresentar histórico profissional com lista de processos conduzidos na área tributária e previdenciária (benefício e custeio) nos últimos 5 anos, incluindo resultados, com valores >= 2.500.000.",
+      "iv": "Comprovar capacidade de análise de documentos contábeis/fiscais/financeiros por profissional com formação ou especialização contábil."
+    },
+    "lote_2": {
+      "descricao": "PIS e COFINS",
+      "i": "Atuação direta nos últimos 5 anos em pelo menos 5 defesas administrativas relacionadas à securitização de créditos, com valores >= 2.500.000, condução bem-sucedida.",
+      "ii": "Atuação direta nos últimos 5 anos em pelo menos 5 processos judiciais relacionados à securitização de créditos, com valores >= 2.500.000, condução bem-sucedida.",
+      "iii": "Apresentar histórico profissional de processos conduzidos na área tributária (securitização de créditos) com resultados nos últimos 5 anos.",
+      "iv": "Comprovar capacidade de análise de documentos contábeis/fiscais/financeiros e documentos relacionados à securitização de créditos e emissão de debêntures por profissional com formação ou especialização contábil."
+    },
+    "regras_gerais": {
+      "cumulatividade": "Os requisitos dos itens i, ii e iii dos dois lotes são cumulativos.",
+      "comprovacao": "Necessário apresentar sentenças proferidas em favor das causas patrocinadas e certidões de trânsito em julgado.",
+      "comprovacao_contabil": "Pode ser comprovado por certificados CPA, pós-graduação, MBA ou cursos com conteúdo contábil/fiscal/financeiro."
+    }
+  }
+}
+
+

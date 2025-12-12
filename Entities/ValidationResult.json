@@ -1,0 +1,58 @@
+{
+  "name": "ValidationResult",
+  "type": "object",
+  "properties": {
+    "document_name": {
+      "type": "string",
+      "description": "Nome do documento validado"
+    },
+    "model_id": {
+      "type": "string",
+      "description": "ID do modelo usado"
+    },
+    "model_name": {
+      "type": "string",
+      "description": "Nome do modelo usado"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "rejected",
+        "warning"
+      ],
+      "description": "Status geral da validação"
+    },
+    "correct_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lista de pontos corretos"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lista de erros encontrados"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lista de inconsistências"
+    },
+    "document_url": {
+      "type": "string",
+      "description": "URL do documento validado"
+    }
+  },
+  "required": [
+    "document_name",
+    "status"
+  ]
+}
+
+
