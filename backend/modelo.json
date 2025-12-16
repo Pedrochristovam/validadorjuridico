@@ -1,27 +1,97 @@
 {
   "modelo": "Qualificação Técnica – Escritórios Associados",
+  "nome": "Qualificação Técnica – Escritórios Associados",
   "requisitos": {
-    "experiencia_geral": "Experiência específica em direito tributário e previdenciário (custeio e/ou benefício).",
+    "experiencia_geral": {
+      "descricao": "O requerente deverá comprovar experiência específica na atuação em direito tributário e previdenciário (custeio e/ou benefício)",
+      "obrigatorio": true
+    },
     "lote_1": {
-      "descricao": "Tributário e Previdenciário",
-      "i": "Atuação direta nos últimos 5 anos em pelo menos 5 defesas administrativas (RF, estaduais, municipais ou previdenciários) com valores >= 2.500.000 e com condução bem-sucedida.",
-      "ii": "Atuação direta nos últimos 5 anos em pelo menos 5 processos judiciais com valores >= 2.500.000 e com condução bem-sucedida.",
-      "iii": "Apresentar histórico profissional com lista de processos conduzidos na área tributária e previdenciária (benefício e custeio) nos últimos 5 anos, incluindo resultados, com valores >= 2.500.000.",
-      "iv": "Comprovar capacidade de análise de documentos contábeis/fiscais/financeiros por profissional com formação ou especialização contábil."
+      "descricao": "Tributário e previdenciário",
+      "i": {
+        "descricao": "Comprovar conhecimento da legislação tributária e previdenciária brasileira (incluindo benefício e custeio), mediante a demonstração de atuação direta, nos últimos 5 anos, em ao menos 5 defesas administrativas junto às Receitas Federal, Estaduais ou Municipais (e órgãos vinculados, inclusive previdenciários), cujos valores envolvidos sejam iguais ou superiores à R$ 2.500.000,00 com condução bem-sucedida.",
+        "quantidade_minima": 5,
+        "tipo": "defesas administrativas",
+        "valores_minimos": 2500000,
+        "periodo": "últimos 5 anos",
+        "requisito_especial": "condução bem-sucedida",
+        "obrigatorio": true
+      },
+      "ii": {
+        "descricao": "Comprovar conhecimento da legislação tributária e previdenciária brasileira (incluindo benefício e custeio), mediante a demonstração de atuação direta, nos últimos 5 anos, em ao menos 5 processos judiciais, cujos valores envolvidos sejam iguais ou superiores à R$ 2.500.000,00 com condução bem-sucedida.",
+        "quantidade_minima": 5,
+        "tipo": "processos judiciais",
+        "valores_minimos": 2500000,
+        "periodo": "últimos 5 anos",
+        "requisito_especial": "condução bem-sucedida",
+        "obrigatorio": true
+      },
+      "iii": {
+        "descricao": "Apresentar o histórico profissional com lista de processos conduzidos na área tributária e previdenciária brasileira (incluindo benefício e custeio) com resultados obtidos nos últimos 5 anos, em ao menos 5 processos judiciais, cujos valores envolvidos sejam iguais ou superiores à R$ 2.500.000,00 com condução bem-sucedida.",
+        "quantidade_minima": 5,
+        "tipo": "histórico profissional",
+        "valores_minimos": 2500000,
+        "periodo": "últimos 5 anos",
+        "requisito_especial": "condução bem-sucedida",
+        "obrigatorio": true
+      },
+      "iv": {
+        "descricao": "Comprovar capacidade de análise de documentos contábeis, fiscais e financeiros da CONTRATANTE relacionadas através de profissional com formação ou especialização na área contábil.",
+        "tipo": "capacidade contábil",
+        "comprovacao": "certificados de graduação na área contábil, CPA (Certificado Profissional AMBINA), pós-graduação, MBA e outros cursos que incluam conhecimentos financeiros, fiscais e contábeis",
+        "obrigatorio": true
+      }
     },
     "lote_2": {
       "descricao": "PIS e COFINS",
-      "i": "Atuação direta nos últimos 5 anos em pelo menos 5 defesas administrativas relacionadas à securitização de créditos, com valores >= 2.500.000, condução bem-sucedida.",
-      "ii": "Atuação direta nos últimos 5 anos em pelo menos 5 processos judiciais relacionados à securitização de créditos, com valores >= 2.500.000, condução bem-sucedida.",
-      "iii": "Apresentar histórico profissional de processos conduzidos na área tributária (securitização de créditos) com resultados nos últimos 5 anos.",
-      "iv": "Comprovar capacidade de análise de documentos contábeis/fiscais/financeiros e documentos relacionados à securitização de créditos e emissão de debêntures por profissional com formação ou especialização contábil."
+      "i": {
+        "descricao": "Comprovar conhecimento da legislação tributária brasileira, bem como a regulamentação específica relacionada à securitização de créditos, mediante a demonstração de atuação direta, nos últimos 5 anos, em ao menos 5 defesas administrativas junto à Receita Federal e órgãos vinculados, cujos valores envolvidos sejam iguais ou superiores à R$ 2.500.000,00 com condução bem-sucedida.",
+        "quantidade_minima": 5,
+        "tipo": "defesas administrativas",
+        "area_especifica": "securitização de créditos",
+        "valores_minimos": 2500000,
+        "periodo": "últimos 5 anos",
+        "requisito_especial": "condução bem-sucedida",
+        "obrigatorio": true
+      },
+      "ii": {
+        "descricao": "Comprovar conhecimento da legislação tributária brasileira, bem como a regulamentação específica relacionada à securitização de créditos, mediante a demonstração de atuação direta, nos últimos 5 anos, em ao menos 5 processos judiciais, cujos valores envolvidos sejam iguais ou superiores à R$ 2.500.000,00 com condução bem-sucedida.",
+        "quantidade_minima": 5,
+        "tipo": "processos judiciais",
+        "area_especifica": "securitização de créditos",
+        "valores_minimos": 2500000,
+        "periodo": "últimos 5 anos",
+        "requisito_especial": "condução bem-sucedida",
+        "obrigatorio": true
+      },
+      "iii": {
+        "descricao": "Apresentar o histórico profissional com lista de processos conduzidos na área tributária na matéria específica relacionada à securitização de créditos, com resultados obtidos nos últimos 5 anos, em ao menos 5 processos judiciais, cujos valores envolvidos sejam iguais ou superiores à R$ 2.500.000,00 com condução bem-sucedida.",
+        "quantidade_minima": 5,
+        "tipo": "histórico profissional",
+        "area_especifica": "securitização de créditos",
+        "valores_minimos": 2500000,
+        "periodo": "últimos 5 anos",
+        "requisito_especial": "condução bem-sucedida",
+        "obrigatorio": true
+      },
+      "iv": {
+        "descricao": "Comprovar capacidade de análise de documentos contábeis, fiscais e financeiros da CONTRATANTE, bem como dos documentos relacionados à securitização de créditos e escritura de debêntures relacionadas através de profissional com formação ou especialização na área contábil.",
+        "tipo": "capacidade contábil",
+        "area_especifica": "securitização de créditos e debêntures",
+        "comprovacao": "certificados de graduação na área contábil, CPA (Certificado Profissional AMBINA), pós-graduação, MBA e outros cursos que incluam conhecimentos financeiros, fiscais e contábeis",
+        "obrigatorio": true
+      }
     },
     "regras_gerais": {
-      "cumulatividade": "Os requisitos dos itens i, ii e iii dos dois lotes são cumulativos.",
-      "comprovacao": "Necessário apresentar sentenças proferidas em favor das causas patrocinadas e certidões de trânsito em julgado.",
-      "comprovacao_contabil": "Pode ser comprovado por certificados CPA, pós-graduação, MBA ou cursos com conteúdo contábil/fiscal/financeiro."
+      "cumulatividade": {
+        "descricao": "Os requisitos de experiências são cumulativos e a comprovação, nos casos dos itens 'i', 'ii' e 'iii' de ambos os lotes acima dependerá de apresentação de sentenças proferidas em favor das causas patrocinadas pelo CONTRATADO, e respectivas certidões de trânsito em julgado.",
+        "itens_cumulativos": ["lote_1_i", "lote_1_ii", "lote_1_iii", "lote_2_i", "lote_2_ii", "lote_2_iii"],
+        "comprovacao_obrigatoria": ["sentenças favoráveis", "certidões de trânsito em julgado"]
+      },
+      "comprovacao_contabil": {
+        "descricao": "A comprovação da exigência descrita no item 'iv' dos 'requisitos para a contratação' de ambos os lotes poderá se dar por apresentação de certificados de graduação na área contábil de CPA (Certificado Profissional AMBINA), de pós-graduação, MBA e outros cursos que incluam conhecimentos financeiros, fiscais e contábeis.",
+        "tipos_aceitos": ["CPA", "pós-graduação", "MBA", "cursos com conteúdo contábil/fiscal/financeiro"]
+      }
     }
   }
 }
-
-

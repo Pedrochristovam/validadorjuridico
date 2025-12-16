@@ -49,6 +49,10 @@ const apiClient = {
         };
       } catch (error) {
         console.error("Erro ao criar modelo:", error);
+        // Mensagem mais clara para erro de conexão
+        if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+          throw new Error('Não foi possível conectar ao servidor. Verifique se o backend está rodando em http://localhost:8000');
+        }
         throw error;
       }
     },
@@ -93,6 +97,10 @@ const apiClient = {
         };
       } catch (error) {
         console.error("Erro no upload:", error);
+        // Mensagem mais clara para erro de conexão
+        if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+          throw new Error('Não foi possível conectar ao servidor. Verifique se o backend está rodando em http://localhost:8000');
+        }
         throw error;
       }
     },
@@ -129,6 +137,10 @@ const apiClient = {
         };
       } catch (error) {
         console.error("Erro na validação:", error);
+        // Mensagem mais clara para erro de conexão
+        if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+          throw new Error('Não foi possível conectar ao servidor. Verifique se o backend está rodando em http://localhost:8000');
+        }
         throw error;
       }
     },

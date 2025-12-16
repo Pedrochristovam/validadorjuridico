@@ -1,0 +1,9 @@
+[MESSAGES CONTROL]
+disable=import-error,no-member,missing-module-docstring,missing-class-docstring,missing-function-docstring
+
+[FORMAT]
+max-line-length=120
+
+[TYPECHECK]
+ignored-modules=fastapi,uvicorn,dotenv,pydantic,pdfplumber,docx,pytesseract,pdf2image,PIL,reportlab,openai,groq
+

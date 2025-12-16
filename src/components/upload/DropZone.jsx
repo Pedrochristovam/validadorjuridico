@@ -30,16 +30,70 @@ export default function DropZone({ onFileSelect, selectedFile, onClear }) {
     const files = e.dataTransfer.files;
     if (files && files.length > 0) {
       const file = files[0];
-      if (file.type === "application/pdf" || 
-          file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      
+      // Valida tamanho do arquivo
+      const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+      if (file.size > MAX_FILE_SIZE) {
+        const maxSizeMB = MAX_FILE_SIZE / (1024 * 1024);
+        const fileSizeMB = file.size / (1024 * 1024);
+        alert(
+          `Arquivo muito grande!\n\n` +
+          `Tamanho máximo permitido: ${maxSizeMB}MB\n` +
+          `Tamanho do arquivo: ${fileSizeMB.toFixed(2)}MB\n\n` +
+          `Por favor, escolha um arquivo menor.`
+        );
+        return;
+      }
+      
+      // Valida tipo de arquivo
+      const validTypes = [
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/msword'
+      ];
+      
+      if (validTypes.includes(file.type)) {
         onFileSelect(file);
+      } else {
+        alert('Formato de arquivo não suportado. Use PDF ou DOCX.');
       }
     }
   }, [onFileSelect]);
 
+  // Limites de tamanho configuráveis (em bytes)
+  // Padrão: 50MB para documentos
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+
   const handleFileInput = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Valida tamanho do arquivo
+      if (file.size > MAX_FILE_SIZE) {
+        const maxSizeMB = MAX_FILE_SIZE / (1024 * 1024);
+        const fileSizeMB = file.size / (1024 * 1024);
+        alert(
+          `Arquivo muito grande!\n\n` +
+          `Tamanho máximo permitido: ${maxSizeMB}MB\n` +
+          `Tamanho do arquivo: ${fileSizeMB.toFixed(2)}MB\n\n` +
+          `Por favor, escolha um arquivo menor.`
+        );
+        e.target.value = ''; // Limpa o input
+        return;
+      }
+      
+      // Valida tipo de arquivo
+      const validTypes = [
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/msword'
+      ];
+      
+      if (!validTypes.includes(file.type)) {
+        alert('Formato de arquivo não suportado. Use PDF ou DOCX.');
+        e.target.value = '';
+        return;
+      }
+      
       onFileSelect(file);
     }
   };

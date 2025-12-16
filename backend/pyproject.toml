@@ -1,0 +1,18 @@
+[tool.pyright]
+include = ["src", "."]
+exclude = [
+    "**/__pycache__",
+    "**/node_modules",
+    "**/venv",
+    "**/.venv",
+    "**/env"
+]
+pythonVersion = "3.11"
+pythonPlatform = "All"
+typeCheckingMode = "basic"
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+[tool.pylint]
+disable = ["import-error", "no-member"]
+

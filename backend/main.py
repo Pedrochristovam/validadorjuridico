@@ -1,12 +1,14 @@
 """
 API FastAPI para Validação Automática de Documentos Jurídicos
 """
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 import logging
+import os
 from pathlib import Path
-from dotenv import load_dotenv
+
+from dotenv import load_dotenv  # type: ignore
+from fastapi import FastAPI  # type: ignore
+from fastapi.middleware.cors import CORSMiddleware  # type: ignore
+from fastapi.responses import JSONResponse  # type: ignore
 
 # Carrega variáveis de ambiente
 load_dotenv()
@@ -21,6 +23,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Limites de upload configuráveis
+MAX_UPLOAD_SIZE = int(os.getenv("MAX_UPLOAD_SIZE", 100 * 1024 * 1024))  # 100MB padrão
+
 # Cria app FastAPI
 app = FastAPI(
     title="Validador Jurídico API",
@@ -29,7 +34,6 @@ app = FastAPI(
 )
 
 # Configura CORS
-import os
 cors_origins_str = os.getenv("CORS_ORIGINS", "*")
 if cors_origins_str == "*":
     cors_origins = ["*"]
@@ -80,7 +84,7 @@ async def global_exception_handler(request, exc):
 
 
 if __name__ == "__main__":
-    import uvicorn
+    import uvicorn  # type: ignore
     
     # Cria diretórios necessários
     Path("uploads").mkdir(exist_ok=True)
@@ -95,6 +99,8 @@ if __name__ == "__main__":
         "main:app",
         host="0.0.0.0",
         port=port,
-        reload=not is_production
+        reload=not is_production,
+        limit_concurrency=100,
+        timeout_keep_alive=300  # 5 minutos para arquivos grandes
     )
 

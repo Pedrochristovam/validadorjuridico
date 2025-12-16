@@ -91,36 +91,55 @@ MODELO OFICIAL:
 {json.dumps(modelo, ensure_ascii=False, indent=2)}
 
 DOCUMENTO ENVIADO:
-{texto_documento[:8000]}  # Limita tamanho
+{texto_documento[:12000]}
 
-INSTRUÇÕES:
-1. Analise todos os requisitos dos Lotes 1 e 2, incluindo:
-   - Experiência geral em direito tributário e previdenciário
-   - Lote 1: Itens i, ii, iii, iv (Tributário e Previdenciário)
-   - Lote 2: Itens i, ii, iii, iv (PIS e COFINS/Securitização)
-   - Regras de cumulatividade (itens i, ii, iii são cumulativos)
-   - Comprovações obrigatórias (sentenças favoráveis, certidões, capacidade contábil)
+INSTRUÇÕES DETALHADAS:
+1. Analise TODOS os requisitos obrigatórios:
 
-2. Para cada requisito, verifique:
-   - Quantidade mínima (ex: 5 defesas, 5 processos)
-   - Valores mínimos (ex: >= 2.500.000)
-   - Período (últimos 5 anos)
-   - Comprovações específicas
+   EXPERIÊNCIA GERAL:
+   - Comprovar experiência específica em direito tributário e previdenciário (custeio e/ou benefício)
+
+   LOTE 1 - TRIBUTÁRIO E PREVIDENCIÁRIO:
+   - Item (i): 5 defesas administrativas nos últimos 5 anos, valores >= R$ 2.500.000,00, com condução bem-sucedida
+   - Item (ii): 5 processos judiciais nos últimos 5 anos, valores >= R$ 2.500.000,00, com condução bem-sucedida
+   - Item (iii): Histórico profissional com lista de processos, 5 processos nos últimos 5 anos, valores >= R$ 2.500.000,00, com condução bem-sucedida
+   - Item (iv): Capacidade de análise contábil/fiscal/financeira por profissional com formação/especialização contábil
+
+   LOTE 2 - PIS E COFINS (SECURITIZAÇÃO):
+   - Item (i): 5 defesas administrativas em securitização de créditos nos últimos 5 anos, valores >= R$ 2.500.000,00, com condução bem-sucedida
+   - Item (ii): 5 processos judiciais em securitização de créditos nos últimos 5 anos, valores >= R$ 2.500.000,00, com condução bem-sucedida
+   - Item (iii): Histórico profissional em securitização de créditos, 5 processos nos últimos 5 anos, valores >= R$ 2.500.000,00, com condução bem-sucedida
+   - Item (iv): Capacidade de análise contábil/fiscal/financeira incluindo securitização de créditos e debêntures
+
+   REGRAS GERAIS:
+   - Itens i, ii, iii de ambos os lotes são CUMULATIVOS
+   - Comprovação requer: sentenças favoráveis + certidões de trânsito em julgado
+   - Item iv pode ser comprovado por: CPA, pós-graduação, MBA ou cursos contábeis/fiscais/financeiros
+
+2. Para cada requisito, verifique EXATAMENTE:
+   - Quantidade mínima: 5 (defesas/processos)
+   - Valores mínimos: >= R$ 2.500.000,00 (dois milhões e quinhentos mil reais)
+   - Período: últimos 5 anos
+   - Resultado: condução bem-sucedida / resultado exitoso
+   - Área específica: securitização de créditos (para Lote 2)
 
 3. Retorne APENAS um JSON válido com esta estrutura exata:
 {{
-  "atende": ["lista", "de", "requisitos", "completamente", "atendidos"],
+  "atende": ["experiencia_geral", "lote_1_i", "lote_1_ii", "lote_1_iii", "lote_1_iv", "lote_2_i", "lote_2_ii", "lote_2_iii", "lote_2_iv"],
   "faltando": ["lista", "de", "requisitos", "não", "comprovados"],
   "duvidoso": ["lista", "de", "requisitos", "parcialmente", "comprovados"],
   "evidencias": {{
-    "requisito_1": "trecho do documento que justifica",
+    "requisito_1": "trecho exato do documento que comprova",
     "requisito_2": "outro trecho relevante"
   }},
   "status_geral": "APROVADO" ou "REPROVADO",
-  "motivo": "explicação breve do status geral"
+  "motivo": "explicação detalhada do status geral baseado nos requisitos cumulativos"
 }}
 
-IMPORTANTE: Retorne APENAS o JSON, sem texto adicional antes ou depois.
+IMPORTANTE: 
+- Retorne APENAS o JSON, sem texto adicional antes ou depois.
+- Seja rigoroso: um requisito só está "atende" se TODOS os critérios (quantidade, valor, período, resultado) forem mencionados.
+- Lembre-se: itens i, ii, iii são CUMULATIVOS - todos devem estar presentes.
 """
         return prompt
     

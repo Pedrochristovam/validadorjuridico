@@ -23,42 +23,9 @@ class ReportService:
         self._setup_custom_styles()
     
     def _setup_custom_styles(self):
-        """Configura estilos customizados"""
-        self.styles.add(ParagraphStyle(
-            name='CustomTitle',
-            parent=self.styles['Heading1'],
-            fontSize=18,
-            textColor=colors.HexColor('#1a237e'),
-            spaceAfter=30,
-            alignment=TA_CENTER
-        ))
-        
-        self.styles.add(ParagraphStyle(
-            name='CustomHeading',
-            parent=self.styles['Heading2'],
-            fontSize=14,
-            textColor=colors.HexColor('#283593'),
-            spaceAfter=12,
-            spaceBefore=12
-        ))
-        
-        self.styles.add(ParagraphStyle(
-            name='StatusAprovado',
-            parent=self.styles['Normal'],
-            fontSize=16,
-            textColor=colors.green,
-            alignment=TA_CENTER,
-            spaceAfter=20
-        ))
-        
-        self.styles.add(ParagraphStyle(
-            name='StatusReprovado',
-            parent=self.styles['Normal'],
-            fontSize=16,
-            textColor=colors.red,
-            alignment=TA_CENTER,
-            spaceAfter=20
-        ))
+        """Configura estilos customizados - versão simplificada"""
+        # Estilos básicos sem formatação complexa
+        pass
     
     def generate_report(self, resultado: Dict, output_path: Path) -> Path:
         """
@@ -76,62 +43,83 @@ class ReportService:
             
             story = []
             
-            # Título
-            story.append(Paragraph("Relatório de Validação de Documento Jurídico", self.styles['CustomTitle']))
+            # Título - versão simples sem formatação complexa
+            story.append(Paragraph("Relatório de Validação de Documento Jurídico", self.styles['Heading1']))
             story.append(Spacer(1, 0.2*inch))
             
             # Data
             data_atual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-            story.append(Paragraph(f"<i>Gerado em: {data_atual}</i>", self.styles['Normal']))
+            story.append(Paragraph(f"Gerado em: {data_atual}", self.styles['Normal']))
             story.append(Spacer(1, 0.3*inch))
             
-            # Status Geral
+            # Status Geral - versão simples
             status = resultado.get("status_geral", "REPROVADO")
-            if status == "APROVADO":
-                story.append(Paragraph(f"<b>STATUS: {status}</b>", self.styles['StatusAprovado']))
-            else:
-                story.append(Paragraph(f"<b>STATUS: {status}</b>", self.styles['StatusReprovado']))
-            
+            story.append(Paragraph(f"STATUS: {status}", self.styles['Heading2']))
             story.append(Spacer(1, 0.3*inch))
             
-            # Requisitos Corretos
+            # Requisitos Corretos - versão simples sem formatação
             corretos = resultado.get("corretos", [])
             if corretos:
-                story.append(Paragraph("✓ Requisitos Atendidos", self.styles['CustomHeading']))
-                for item in corretos:
-                    story.append(Paragraph(f"• {item}", self.styles['Normal']))
+                story.append(Paragraph("Requisitos Atendidos", self.styles['Heading2']))
+                for idx, item in enumerate(corretos, 1):
+                    # Limpa texto e garante que tudo seja incluído
+                    item_text = str(item) if item else ""
+                    # Remove apenas caracteres que podem quebrar o PDF, mantém o conteúdo
+                    item_clean = item_text.replace('<', '').replace('>', '').replace('&', 'e').strip()
+                    if item_clean:  # Só adiciona se não estiver vazio
+                        story.append(Paragraph(f"{idx}. {item_clean}", self.styles['Normal']))
                 story.append(Spacer(1, 0.2*inch))
             
-            # Requisitos Faltando
+            # Requisitos Faltando - versão simples sem formatação
             faltando = resultado.get("faltando", [])
             if faltando:
-                story.append(Paragraph("✗ Requisitos Não Comprovados", self.styles['CustomHeading']))
-                for item in faltando:
-                    story.append(Paragraph(f"• {item}", self.styles['Normal']))
+                story.append(Paragraph("Requisitos Não Comprovados", self.styles['Heading2']))
+                for idx, item in enumerate(faltando, 1):
+                    item_text = str(item) if item else ""
+                    item_clean = item_text.replace('<', '').replace('>', '').replace('&', 'e').strip()
+                    if item_clean:
+                        story.append(Paragraph(f"{idx}. {item_clean}", self.styles['Normal']))
                 story.append(Spacer(1, 0.2*inch))
             
-            # Requisitos Duvidosos
+            # Requisitos Duvidosos - versão simples sem formatação
             duvidosos = resultado.get("duvidosos", [])
             if duvidosos:
-                story.append(Paragraph("⚠ Requisitos Parcialmente Comprovados", self.styles['CustomHeading']))
-                for item in duvidosos:
-                    story.append(Paragraph(f"• {item}", self.styles['Normal']))
+                story.append(Paragraph("Requisitos Parcialmente Comprovados", self.styles['Heading2']))
+                for idx, item in enumerate(duvidosos, 1):
+                    item_text = str(item) if item else ""
+                    item_clean = item_text.replace('<', '').replace('>', '').replace('&', 'e').strip()
+                    if item_clean:
+                        story.append(Paragraph(f"{idx}. {item_clean}", self.styles['Normal']))
                 story.append(Spacer(1, 0.2*inch))
             
-            # Evidências
+            # Evidências - versão simples sem formatação, garantindo todo conteúdo
             evidencias = resultado.get("evidencias", {})
             if evidencias:
                 story.append(PageBreak())
-                story.append(Paragraph("Evidências Encontradas", self.styles['CustomHeading']))
+                story.append(Paragraph("Evidências Encontradas", self.styles['Heading2']))
+                story.append(Spacer(1, 0.1*inch))
                 
                 for requisito, evidencia in evidencias.items():
-                    story.append(Paragraph(f"<b>{requisito}:</b>", self.styles['Normal']))
-                    story.append(Paragraph(evidencia, self.styles['Normal']))
+                    req_text = str(requisito) if requisito else ""
+                    evid_text = str(evidencia) if evidencia else ""
+                    
+                    req_clean = req_text.replace('<', '').replace('>', '').replace('&', 'e').strip()
+                    evid_clean = evid_text.replace('<', '').replace('>', '').replace('&', 'e').strip()
+                    
+                    if req_clean:
+                        story.append(Paragraph(f"Requisito: {req_clean}", self.styles['Normal']))
+                    if evid_clean:
+                        # Quebra evidências longas em múltiplos parágrafos se necessário
+                        evid_lines = evid_clean.split('\n')
+                        for line in evid_lines:
+                            line_clean = line.strip()
+                            if line_clean:
+                                story.append(Paragraph(line_clean, self.styles['Normal']))
                     story.append(Spacer(1, 0.15*inch))
             
-            # Resumo em tabela
+            # Resumo em tabela - versão simples sem formatação complexa
             story.append(PageBreak())
-            story.append(Paragraph("Resumo da Validação", self.styles['CustomHeading']))
+            story.append(Paragraph("Resumo da Validação", self.styles['Heading2']))
             
             data_table = [
                 ['Categoria', 'Quantidade'],
@@ -141,15 +129,13 @@ class ReportService:
                 ['Status Final', status]
             ]
             
+            # Tabela simples sem formatação complexa
             table = Table(data_table, colWidths=[4*inch, 2*inch])
             table.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#283593')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
                 ('FONTSIZE', (0, 0), (-1, 0), 12),
-                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('FONTSIZE', (0, 1), (-1, -1), 10),
                 ('GRID', (0, 0), (-1, -1), 1, colors.black)
             ]))
             

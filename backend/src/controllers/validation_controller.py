@@ -1,7 +1,7 @@
 """
 Controller para validação de documentos
 """
-from fastapi import HTTPException
+from fastapi import HTTPException  # type: ignore
 import logging
 from ..services.validation_service import ValidationService
 from ..services.report_service import ReportService

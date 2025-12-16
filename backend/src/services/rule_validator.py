@@ -168,22 +168,46 @@ class RuleValidator:
             resultado["evidencias"][key] = "Não encontrou evidências suficientes de 5 processos judiciais >= 2.500.000 nos últimos 5 anos com resultado exitoso"
     
     def _validate_item_iii(self, texto: str, requisito: str, key: str, resultado: Dict):
-        """Valida item iii: Histórico profissional"""
-        termos_historico = ["histórico", "histórico profissional", "processos conduzidos", "resultados"]
+        """Valida item iii: Histórico profissional com 5 processos >= 2.500.000 nos últimos 5 anos com condução bem-sucedida"""
+        termos_historico = ["histórico", "histórico profissional", "processos conduzidos", "lista de processos", "resultados obtidos"]
         tem_historico = any(termo in texto for termo in termos_historico)
         
         termos_area = ["tributária", "tributário", "previdenciária", "previdenciário", "benefício", "custeio"]
         tem_area = any(termo in texto for termo in termos_area)
         
-        if tem_historico and tem_area:
+        # Busca por valores >= 2.500.000
+        valores = re.findall(r'(?:r\$\s*)?([\d\.]+(?:\.\d{3})*(?:,\d{2})?)', texto, re.IGNORECASE)
+        valores_altos = [v for v in valores if self._parse_value(v) >= 2500000]
+        
+        # Busca por quantidade (5 processos)
+        tem_quantidade = re.search(r'\b(5|cinco|pelo menos 5|mínimo de 5|ao menos 5)\b', texto, re.IGNORECASE)
+        
+        # Busca por "últimos 5 anos"
+        tem_tempo = re.search(r'(últimos?\s*5\s*anos?|5\s*anos?|cinco\s*anos?)', texto, re.IGNORECASE)
+        
+        # Busca por resultado exitoso/bem-sucedido
+        termos_sucesso = ["resultado exitoso", "condução bem-sucedida", "bem-sucedida", 
+                          "resultado favorável", "sucesso", "procedente", "favorável", "resultados obtidos"]
+        tem_sucesso = any(termo in texto for termo in termos_sucesso)
+        
+        # Pontuação baseada em critérios encontrados
+        pontos = 0
+        if tem_historico: pontos += 1
+        if tem_area: pontos += 1
+        if tem_quantidade: pontos += 1
+        if len(valores_altos) > 0: pontos += 1
+        if tem_tempo: pontos += 1
+        if tem_sucesso: pontos += 1
+        
+        if pontos >= 5:  # Pelo menos 5 dos 6 critérios
             resultado["corretos"].append(key)
-            resultado["evidencias"][key] = "Encontrou histórico profissional na área"
-        elif tem_historico or tem_area:
+            resultado["evidencias"][key] = "Encontrou histórico profissional completo (5 processos, valores >= 2.500.000, últimos 5 anos, condução bem-sucedida)"
+        elif pontos >= 3:
             resultado["duvidosos"].append(key)
-            resultado["evidencias"][key] = "Menção parcial a histórico profissional"
+            resultado["evidencias"][key] = f"Menção parcial: encontrou {pontos} de 6 critérios necessários"
         else:
             resultado["faltando"].append(key)
-            resultado["evidencias"][key] = "Não encontrou histórico profissional completo"
+            resultado["evidencias"][key] = "Não encontrou histórico profissional completo com 5 processos >= 2.500.000 nos últimos 5 anos com condução bem-sucedida"
     
     def _validate_item_iv(self, texto: str, requisito: str, key: str, resultado: Dict):
         """Valida item iv: Capacidade contábil"""
@@ -278,9 +302,9 @@ class RuleValidator:
             resultado["evidencias"][key] = "Não encontrou evidências suficientes de processos judiciais em securitização"
     
     def _validate_item_iii_securitizacao(self, texto: str, requisito: str, key: str, resultado: Dict):
-        """Valida item iii Lote 2: Histórico profissional securitização nos últimos 5 anos com valores >= 2.500.000"""
+        """Valida item iii Lote 2: Histórico profissional securitização com 5 processos >= 2.500.000 nos últimos 5 anos com condução bem-sucedida"""
         termos_historico = ["histórico", "histórico profissional", "processos conduzidos", 
-                           "lista de processos", "processos realizados"]
+                           "lista de processos", "processos realizados", "resultados obtidos"]
         termos_securitizacao = ["securitização", "securitizacao", "securitização de créditos", 
                                "securitização de creditos", "créditos", "creditos"]
         
@@ -292,22 +316,32 @@ class RuleValidator:
         tem_tempo = re.search(r'(últimos?\s*5\s*anos?|5\s*anos?|cinco\s*anos?)', texto, re.IGNORECASE)
         tem_resultados = re.search(r'(resultados?|obtidos?|conduzidos?)', texto, re.IGNORECASE)
         
+        # Busca por quantidade (5 processos)
+        tem_quantidade = re.search(r'\b(5|cinco|pelo menos 5|mínimo de 5|ao menos 5)\b', texto, re.IGNORECASE)
+        
+        # Busca por resultado exitoso/bem-sucedido
+        termos_sucesso = ["resultado exitoso", "condução bem-sucedida", "bem-sucedida", 
+                          "resultado favorável", "sucesso", "procedente", "favorável"]
+        tem_sucesso = any(termo in texto for termo in termos_sucesso)
+        
         pontos = 0
         if tem_historico: pontos += 1
         if tem_securitizacao: pontos += 1
         if tem_tempo: pontos += 1
         if len(valores_altos) > 0: pontos += 1
         if tem_resultados: pontos += 1
+        if tem_quantidade: pontos += 1
+        if tem_sucesso: pontos += 1
         
-        if pontos >= 4:  # Pelo menos 4 dos 5 critérios
+        if pontos >= 6:  # Pelo menos 6 dos 7 critérios
             resultado["corretos"].append(key)
-            resultado["evidencias"][key] = "Encontrou histórico profissional em securitização com valores >= 2.500.000 nos últimos 5 anos"
-        elif pontos >= 2:
+            resultado["evidencias"][key] = "Encontrou histórico profissional em securitização completo (5 processos, valores >= 2.500.000, últimos 5 anos, condução bem-sucedida)"
+        elif pontos >= 4:
             resultado["duvidosos"].append(key)
-            resultado["evidencias"][key] = f"Menção parcial: encontrou {pontos} de 5 critérios necessários"
+            resultado["evidencias"][key] = f"Menção parcial: encontrou {pontos} de 7 critérios necessários"
         else:
             resultado["faltando"].append(key)
-            resultado["evidencias"][key] = "Não encontrou histórico profissional completo em securitização"
+            resultado["evidencias"][key] = "Não encontrou histórico profissional completo em securitização com 5 processos >= 2.500.000 nos últimos 5 anos com condução bem-sucedida"
     
     def _validate_item_iv_securitizacao(self, texto: str, requisito: str, key: str, resultado: Dict):
         """Valida item iv Lote 2: Capacidade contábil securitização e debêntures"""

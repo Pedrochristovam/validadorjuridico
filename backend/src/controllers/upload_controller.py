@@ -1,17 +1,32 @@
 """
 Controller para upload de arquivos
 """
-from fastapi import UploadFile, HTTPException
+from fastapi import UploadFile, HTTPException  # type: ignore
 from pathlib import Path
 import logging
+import os
 from ..services.extraction_service import extract_text
 from ..utils.file_handler import save_uploaded_file, save_modelo_json
 
 logger = logging.getLogger(__name__)
 
+# Limites de tamanho configuráveis (em bytes)
+# Padrão: 50MB para documentos, pode ser configurado via variável de ambiente
+MAX_FILE_SIZE_DOCUMENTO = int(os.getenv("MAX_FILE_SIZE_DOCUMENTO", 50 * 1024 * 1024))  # 50MB padrão
+MAX_FILE_SIZE_MODELO = int(os.getenv("MAX_FILE_SIZE_MODELO", 20 * 1024 * 1024))  # 20MB padrão
+
 
 class UploadController:
     """Controller para gerenciar uploads"""
+    
+    @staticmethod
+    def _format_file_size(size_bytes: int) -> str:
+        """Formata tamanho do arquivo em formato legível"""
+        for unit in ['B', 'KB', 'MB', 'GB']:
+            if size_bytes < 1024.0:
+                return f"{size_bytes:.2f} {unit}"
+            size_bytes /= 1024.0
+        return f"{size_bytes:.2f} TB"
     
     @staticmethod
     async def upload_documento(file: UploadFile) -> dict:
@@ -31,8 +46,34 @@ class UploadController:
                     detail=f"Formato não suportado: {ext}. Use PDF ou DOCX."
                 )
             
-            # Lê arquivo
-            file_content = await file.read()
+            # Lê arquivo em chunks para verificar tamanho antes de processar tudo
+            file_content = b""
+            total_size = 0
+            
+            while True:
+                chunk = await file.read(1024 * 1024)  # Lê em chunks de 1MB
+                if not chunk:
+                    break
+                total_size += len(chunk)
+                
+                # Verifica limite durante o upload
+                if total_size > MAX_FILE_SIZE_DOCUMENTO:
+                    max_size_mb = MAX_FILE_SIZE_DOCUMENTO / (1024 * 1024)
+                    raise HTTPException(
+                        status_code=413,
+                        detail=f"Arquivo muito grande. Tamanho máximo permitido: {max_size_mb:.0f}MB. "
+                               f"Tamanho do arquivo: {UploadController._format_file_size(total_size)}"
+                    )
+                file_content += chunk
+            
+            # Verifica tamanho final
+            if len(file_content) > MAX_FILE_SIZE_DOCUMENTO:
+                max_size_mb = MAX_FILE_SIZE_DOCUMENTO / (1024 * 1024)
+                raise HTTPException(
+                    status_code=413,
+                    detail=f"Arquivo muito grande. Tamanho máximo permitido: {max_size_mb:.0f}MB. "
+                           f"Tamanho do arquivo: {UploadController._format_file_size(len(file_content))}"
+                )
             
             # Salva arquivo temporariamente
             file_path = save_uploaded_file(file_content, filename)
@@ -46,11 +87,16 @@ class UploadController:
                     detail="Não foi possível extrair texto do documento. Verifique se o arquivo está válido."
                 )
             
+            file_size_mb = len(file_content) / (1024 * 1024)
+            logger.info(f"Documento processado: {filename} ({file_size_mb:.2f}MB)")
+            
             return {
                 "success": True,
                 "message": "Documento processado com sucesso",
                 "texto_extraido": texto_extraido,
-                "filename": filename
+                "filename": filename,
+                "file_size": len(file_content),
+                "file_size_mb": round(file_size_mb, 2)
             }
             
         except HTTPException:
@@ -93,8 +139,35 @@ class UploadController:
                         detail=f"Formato não suportado: {ext}. Use DOCX, DOC ou PDF."
                     )
                 
-                # Lê e salva arquivo
-                file_content = await file.read()
+                # Lê arquivo em chunks para verificar tamanho
+                file_content = b""
+                total_size = 0
+                
+                while True:
+                    chunk = await file.read(1024 * 1024)  # Lê em chunks de 1MB
+                    if not chunk:
+                        break
+                    total_size += len(chunk)
+                    
+                    # Verifica limite durante o upload
+                    if total_size > MAX_FILE_SIZE_MODELO:
+                        max_size_mb = MAX_FILE_SIZE_MODELO / (1024 * 1024)
+                        raise HTTPException(
+                            status_code=413,
+                            detail=f"Arquivo modelo muito grande. Tamanho máximo permitido: {max_size_mb:.0f}MB. "
+                                   f"Tamanho do arquivo: {UploadController._format_file_size(total_size)}"
+                        )
+                    file_content += chunk
+                
+                # Verifica tamanho final
+                if len(file_content) > MAX_FILE_SIZE_MODELO:
+                    max_size_mb = MAX_FILE_SIZE_MODELO / (1024 * 1024)
+                    raise HTTPException(
+                        status_code=413,
+                        detail=f"Arquivo modelo muito grande. Tamanho máximo permitido: {max_size_mb:.0f}MB. "
+                               f"Tamanho do arquivo: {UploadController._format_file_size(len(file_content))}"
+                    )
+                
                 file_path = save_uploaded_file(file_content, file.filename)
                 
                 # Extrai texto do arquivo
