@@ -22,16 +22,16 @@ services:
         sync: false  # Configure com a URL do frontend após deploy
 
   # Frontend (React/Vite)
-  - type: web
+  - type: static
     name: validador-juridico-frontend
     env: node
     region: sao
     plan: free
     buildCommand: npm install && npm run build
-    startCommand: npm run preview
+    staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        sync: false  # Configure com a URL do backend após deploy
+        sync: false  # Configure com: https://validadorjuridico.onrender.com/api
       - key: NODE_VERSION
         value: 18.17.0
 

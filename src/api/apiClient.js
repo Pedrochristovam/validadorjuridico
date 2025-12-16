@@ -1,6 +1,22 @@
 // Cliente API para conectar com o backend FastAPI
 // Usa variável de ambiente em produção, fallback para localhost em desenvolvimento
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+// Em produção no Render, usar: https://validadorjuridico.onrender.com/api
+const getApiBaseUrl = () => {
+  // Se VITE_API_URL estiver definida, usa ela
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // Se estiver em produção (hostname não é localhost), usa o backend do Render
+  if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://validadorjuridico.onrender.com/api';
+  }
+  
+  // Fallback para desenvolvimento local
+  return 'http://localhost:8000/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 const apiClient = {
   models: {
