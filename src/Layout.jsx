@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "./utils";
-import { FileCheck, Upload, FolderCog, History, Menu, X } from "lucide-react";
+import { FileCheck, Upload, History, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Layout({ children, currentPageName }) {
@@ -9,7 +9,6 @@ export default function Layout({ children, currentPageName }) {
 
   const navItems = [
     { name: "Validar", page: "Home", icon: Upload },
-    { name: "Modelos", page: "Models", icon: FolderCog },
     { name: "Histórico", page: "History", icon: History },
   ];
 

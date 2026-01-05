@@ -38,16 +38,24 @@ class AIValidator:
         """Inicializa o cliente de IA baseado no provider"""
         if self.provider == "openai" and OPENAI_AVAILABLE:
             api_key = os.getenv("OPENAI_API_KEY")
-            if api_key:
+            if not api_key:
+                logger.warning("OPENAI_API_KEY não encontrada; IA desativada para OpenAI")
+                return
+            try:
                 self.client = OpenAI(api_key=api_key)
-            else:
-                logger.warning("OPENAI_API_KEY não encontrada")
+            except Exception as exc:  # noqa: BLE001
+                logger.error("Falha ao inicializar cliente OpenAI", exc_info=True)
+                self.client = None
         elif self.provider == "groq" and GROQ_AVAILABLE:
             api_key = os.getenv("GROQ_API_KEY")
-            if api_key:
+            if not api_key:
+                logger.warning("GROQ_API_KEY não encontrada; IA desativada para Groq")
+                return
+            try:
                 self.client = Groq(api_key=api_key)
-            else:
-                logger.warning("GROQ_API_KEY não encontrada")
+            except Exception as exc:  # noqa: BLE001
+                logger.error("Falha ao inicializar cliente Groq", exc_info=True)
+                self.client = None
         else:
             logger.warning(f"Provider {self.provider} não disponível ou não configurado")
     

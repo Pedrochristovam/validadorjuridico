@@ -160,3 +160,7 @@ O endpoint retorna informações sobre o arquivo:
 
 *Última atualização: Sistema de limites configuráveis implementado*
 
+
+
+
+

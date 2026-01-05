@@ -102,3 +102,7 @@ curl http://localhost:8000/health
 - Adicione: `OPENAI_API_KEY=sua-chave-aqui` ou `GROQ_API_KEY=sua-chave-aqui`
 
 
+
+
+
+

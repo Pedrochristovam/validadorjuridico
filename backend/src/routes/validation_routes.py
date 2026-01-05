@@ -68,3 +68,7 @@ async def gerar_relatorio(request: ValidationRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+
+
+
+

@@ -168,3 +168,7 @@ Configure a seguinte variável:
 3. **Logs**: Use o dashboard para ver logs em tempo real
 4. **Health Checks**: O backend tem um endpoint `/health` para verificação
 
+
+
+
+

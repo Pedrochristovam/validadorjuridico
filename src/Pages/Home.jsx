@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { apiClient } from "@/api/apiClient";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles, FileCheck } from "lucide-react";
 import { motion } from "framer-motion";
@@ -9,14 +8,8 @@ import ValidationResults from "@/components/validation/ValidationResults";
 
 export default function Home() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedModel, setSelectedModel] = useState("");
   const [isValidating, setIsValidating] = useState(false);
   const [validationResult, setValidationResult] = useState(null);
-
-  const { data: models = [] } = useQuery({
-    queryKey: ["models"],
-    queryFn: () => apiClient.models.list(),
-  });
 
   const handleValidate = async () => {
     if (!selectedFile) return;
@@ -27,23 +20,17 @@ export default function Home() {
       // Upload do arquivo e extração de texto
       const uploadResult = await apiClient.documents.upload(selectedFile);
 
-      // Encontrar modelo selecionado
-      const model = models.find(m => m.id === selectedModel);
-      
-      console.log('Validando com modelo:', selectedModel || 'default');
-      console.log('Modelo encontrado:', model?.name || 'Padrão');
-
-      // Validação com o backend usando o modelo selecionado
+      // Validação com o backend usando o modelo padrão interno
       const analysis = await apiClient.documents.validate({
         texto_extraido: uploadResult.texto_extraido,
-        modelo_id: selectedModel || 'default',
+        modelo_id: "default",
       });
 
       // Salvar resultado
       const result = await apiClient.validationResults.create({
         document_name: selectedFile.name,
-        model_id: selectedModel || null,
-        model_name: model?.name || "Validação Geral",
+        model_id: "default",
+        model_name: analysis.modelo_usado || "Modelo Interno",
         document_url: uploadResult.file_url,
         ...analysis
       });
@@ -59,7 +46,6 @@ export default function Home() {
 
   const handleNewValidation = () => {
     setSelectedFile(null);
-    setSelectedModel("");
     setValidationResult(null);
   };
 

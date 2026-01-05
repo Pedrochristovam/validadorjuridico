@@ -29,3 +29,7 @@ echo Para parar, feche as janelas do Backend e Frontend.
 echo.
 pause
 
+
+
+
+

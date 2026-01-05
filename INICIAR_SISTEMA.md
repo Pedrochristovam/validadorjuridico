@@ -70,3 +70,7 @@ VITE v5.x.x  ready in xxx ms
 - **Ambiente Virtual**: Se estiver usando venv, ative antes: `.\env\Scripts\activate`
 - **Portas**: Se a porta 8000 estiver ocupada, altere no `main.py` ou use outra porta
 
+
+
+
+
