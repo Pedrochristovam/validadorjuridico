@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { apiClient } from "@/api/apiClient";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button.jsx";
+import { Card } from "@/components/ui/card.jsx";
 import { 
   Plus, 
   FileText, 

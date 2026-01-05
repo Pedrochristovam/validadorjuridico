@@ -1,6 +1,6 @@
 import React from "react";
 import { CheckCircle2, XCircle, AlertTriangle, Download, FileText, RotateCcw } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.jsx";
 import { motion } from "framer-motion";
 
 export default function ValidationResults({ result, onNewValidation }) {

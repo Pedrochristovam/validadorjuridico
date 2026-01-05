@@ -1,7 +1,7 @@
 import React from "react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox.jsx";
+import { Input } from "@/components/ui/input.jsx";
+import { Button } from "@/components/ui/button.jsx";
 import { Plus, X, GripVertical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 

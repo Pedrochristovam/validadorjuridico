@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { apiClient } from "@/api/apiClient";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.jsx";
 import { Loader2, Sparkles, FileCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import DropZone from "@/components/upload/DropZone";
