@@ -72,3 +72,4 @@ async def gerar_relatorio(request: ValidationRequest):
 
 
 
+

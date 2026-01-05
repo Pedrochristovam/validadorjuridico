@@ -11,3 +11,4 @@ ignored-modules=fastapi,uvicorn,dotenv,pydantic,pdfplumber,docx,pytesseract,pdf2
 
 
 
+
